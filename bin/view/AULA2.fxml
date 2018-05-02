@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1272.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AULA2Controller">
+    <BorderPane layoutX="68.0" layoutY="-68.0" prefHeight="566.0" prefWidth="1272.0" AnchorPane.bottomAnchor="-72.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <left>
+            <VBox BorderPane.alignment="CENTER">
+                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../img/this_is_dog.jpg" />
+                </ImageView>
+            <Accordion>
+               <panes>
+                      <TitledPane animated="false" text="Tons de Cinza">
+                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#cinza" text="Cinza" />
+                           <TextField fx:id="red" layoutX="26.0" layoutY="48.0" prefHeight="25.0" prefWidth="44.0" />
+                           <TextField fx:id="green" layoutX="78.0" layoutY="48.0" prefHeight="25.0" prefWidth="44.0" />
+                           <TextField fx:id="blue" layoutX="133.0" layoutY="48.0" prefHeight="25.0" prefWidth="44.0" />
+                        </AnchorPane>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Negativa">
+                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <Button layoutX="23.0" layoutY="7.0" mnemonicParsing="false" onAction="#negativar" text="Negativar" />
+                        </AnchorPane>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Limiarização">
+                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <Slider fx:id="limiar" blockIncrement="0.1" layoutX="25.0" layoutY="7.0" max="1.0" onMouseDragged="#limiar" />
+                        </AnchorPane>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Ruídos">
+                          <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <Button layoutX="24.0" layoutY="97.0" mnemonicParsing="false" onAction="#removeRuidoMedia" text="Média" />
+                           <Button layoutX="99.0" layoutY="97.0" mnemonicParsing="false" onAction="#removeRuidoMediana" text="Mediana" />
+                           <RadioButton layoutX="24.0" layoutY="14.0" mnemonicParsing="false" text="Diagonais">
+                              <toggleGroup>
+                                 <ToggleGroup fx:id="ruidoGrp" />
+                              </toggleGroup>
+                           </RadioButton>
+                           <RadioButton layoutX="24.0" layoutY="38.0" mnemonicParsing="false" text="Cruz" toggleGroup="$ruidoGrp" />
+                           <RadioButton layoutX="24.0" layoutY="63.0" mnemonicParsing="false" text="3x3" toggleGroup="$ruidoGrp" />
+                        </AnchorPane>
+                      </TitledPane>
+                  <TitledPane animated="false" text="Equalização">
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                          <Button layoutX="24.0" layoutY="14.0" mnemonicParsing="false" onAction="#equalizar" text="Equalizar" />
+                        </AnchorPane>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Desafios">
+                        <AnchorPane minHeight="0.0" minWidth="0.0">
+                              <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#desafio1" text="Desafio1" />
+                        <Button layoutX="13.0" layoutY="54.0" mnemonicParsing="false" onAction="#desafio2" text="Desafio 2" />
+                        <TextField fx:id="qtCores" layoutX="100.0" layoutY="54.0" prefHeight="25.0" prefWidth="59.0" />
+                        </AnchorPane>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Simulado">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="407.0" prefWidth="200.0">
+                          <TextField fx:id="tamBorda" layoutX="14.0" layoutY="43.0" prefHeight="25.0" prefWidth="75.0" />
+                          <Button layoutX="100.0" layoutY="43.0" mnemonicParsing="false" onAction="#criarBorda" prefHeight="25.0" prefWidth="80.0" text="Criar borda" />
+                          <Separator layoutY="87.0" prefWidth="200.0" />
+                          <ComboBox fx:id="comboCores" layoutX="14.0" layoutY="11.0" prefHeight="25.0" prefWidth="169.0" />
+                          <Button layoutX="14.0" layoutY="101.0" mnemonicParsing="false" onAction="#divisaoHorizontal" text="Divisão" />
+                          <Button layoutX="14.0" layoutY="141.0" mnemonicParsing="false" onAction="#circleOrSquare" text="Quadrado ou círculo" />
+                          <Button layoutX="21.0" layoutY="208.0" mnemonicParsing="false" onAction="#girarEsquerda" text="Esquerda" />
+                          <Separator layoutX="-1.0" layoutY="179.0" prefWidth="200.0" />
+                          <Button layoutX="112.0" layoutY="208.0" mnemonicParsing="false" onAction="#girarDireita" prefHeight="25.0" prefWidth="64.0" text="Direita" />
+                          <Label layoutX="70.0" layoutY="185.0" text="Rotacionar" />
+                          <Separator layoutX="-1.0" layoutY="247.0" prefWidth="200.0" />
+                          <Button layoutX="26.0" layoutY="261.0" mnemonicParsing="false" onAction="#aumentar" text="Aumentar" />
+                        <Button layoutX="112.0" layoutY="261.0" mnemonicParsing="false" onAction="#diminuir" text="Diminuir" />
+                        </AnchorPane>
+                  </TitledPane>
+                  <TitledPane animated="false" text="Adicionar / Subtrair">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="opcImg1" layoutX="14.0" layoutY="34.0" prefHeight="25.0" prefWidth="74.0" />
+                              <TextField fx:id="opcImg2" layoutX="100.0" layoutY="34.0" prefHeight="25.0" prefWidth="74.0" />
+                              <Button layoutX="14.0" layoutY="73.0" mnemonicParsing="false" onAction="#adicionar" prefHeight="25.0" prefWidth="73.0" text="Somar" />
+                              <Label layoutX="18.0" layoutY="14.0" text="Opacidade 1" />
+                              <Label layoutX="104.0" layoutY="14.0" text="Opacidade 2" />
+                              <Button layoutX="100.0" layoutY="73.0" mnemonicParsing="false" onAction="#subtrair" prefHeight="25.0" prefWidth="74.0" text="Subtrair" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
+               </panes>
+            </Accordion>
+            </VBox>
+        </left>
+        <center>
+            <ScrollPane BorderPane.alignment="CENTER">
+                    <AnchorPane minHeight="0.0" minWidth="0.0">
+                            <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <HBox>
+                                    <Label fx:id="lbR" prefWidth="160.0" text="R:" textFill="#ff3232">
+                                        <font>
+                                            <Font name="System Bold" size="50.0" />
+                                        </font>
+                                        <HBox.margin>
+                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lbG" layoutX="10.0" layoutY="10.0" prefWidth="160.0" text="G:" textFill="#3dff33">
+                                        <font>
+                                            <Font name="System Bold" size="50.0" />
+                                        </font>
+                                        <HBox.margin>
+                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lbB" layoutX="57.0" layoutY="10.0" prefWidth="160.0" text="B:" textFill="#33a4ff">
+                                        <font>
+                                            <Font name="System Bold" size="50.0" />
+                                        </font>
+                                        <HBox.margin>
+                                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                        </HBox.margin>
+                                    </Label>
+                                    <Button mnemonicParsing="false" onAction="#gerarHistograma" text="Histograma">
+                                        <font>
+                                            <Font size="20.0" />
+                                        </font>
+                        <HBox.margin>
+                           <Insets top="5.0" />
+                        </HBox.margin>
+                                    </Button>
+                     <Button mnemonicParsing="false" onAction="#usarImg3" text="Usar Img 3">
+                        <HBox.margin>
+                           <Insets left="15.0" top="15.0" />
+                        </HBox.margin>
+                     </Button>
+                     <Button mnemonicParsing="false" onAction="#reset" text="Reset">
+                        <HBox.margin>
+                           <Insets left="15.0" top="15.0" />
+                        </HBox.margin>
+                     </Button>
+                                </HBox>
+                                <HBox>
+                                    <VBox>
+                                        <Button mnemonicParsing="false" onAction="#abreImagem1" text="Abrir Imagem 1" />
+                                        <ScrollPane prefHeight="400.0" prefWidth="380.0">
+                                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                <ImageView fx:id="img1" fitHeight="250.0" fitWidth="165.0" layoutX="25.0" layoutY="42.0" onMouseExited="#limparLabels" onMouseMoved="#rasterImg" onMousePressed="#clicou" onMouseReleased="#soltou" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                            </AnchorPane>
+                                        </ScrollPane>
+                                    </VBox>
+                                    <VBox layoutX="10.0" layoutY="10.0">
+                                        <Button mnemonicParsing="false" onAction="#abreImagem2" text="Abrir Imagem 2" />
+                                        <ScrollPane prefHeight="400.0" prefWidth="380.0">
+                                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                <ImageView fx:id="img2" fitHeight="250.0" fitWidth="165.0" layoutX="25.0" layoutY="42.0" onMouseExited="#limparLabels" onMouseMoved="#rasterImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                            </AnchorPane>
+                                        </ScrollPane>
+                                    </VBox>
+                                    <VBox layoutX="260.0" layoutY="10.0">
+                                        <Button mnemonicParsing="false" onAction="#salvar" text="Salvar" />
+                                        <ScrollPane prefHeight="400.0" prefWidth="380.0">
+                                            <AnchorPane minHeight="0.0" minWidth="0.0">
+                                                <ImageView fx:id="img3" fitHeight="250.0" fitWidth="165.0" layoutX="25.0" layoutY="42.0" onMouseExited="#limparLabels" onMouseMoved="#rasterImg" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                            </AnchorPane>
+                                        </ScrollPane>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+                    </AnchorPane>
+            </ScrollPane>
+        </center>
+    </BorderPane>
+</AnchorPane>
