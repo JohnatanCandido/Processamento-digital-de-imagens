@@ -103,6 +103,15 @@
                         </AnchorPane>
                     </content>
                   </TitledPane>
+                  <TitledPane animated="false" text="Faces">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#identificaRostos" text="Identificar" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </TitledPane>
                </panes>
             </Accordion>
             </VBox>

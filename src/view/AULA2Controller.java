@@ -15,9 +15,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.opencv.core.*;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.objdetect.CascadeClassifier;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -46,6 +51,8 @@ public class AULA2Controller {
 
     private Image imagem1, imagem2, imagem3;
 
+    private File f;
+
     @FXML
     public void initialize() {
         comboCores.getItems().add("Vermelho");
@@ -56,7 +63,7 @@ public class AULA2Controller {
     @FXML
     @SuppressWarnings("unused")
     public void abreImagem1() {
-        File f = selecionarImagem();
+        f = selecionarImagem();
 
         if (f != null) {
             imagem1 = new Image(f.toURI().toString());
@@ -88,7 +95,7 @@ public class AULA2Controller {
     @FXML
     @SuppressWarnings("unused")
     public void abreImagem2() {
-        File f = selecionarImagem();
+        f = selecionarImagem();
 
         if (f != null) {
             imagem2 = new Image(f.toURI().toString());
@@ -372,6 +379,25 @@ public class AULA2Controller {
         areaSelecionada[3] = areaSelecionada[3] > (int) event.getY() ? areaSelecionada[3] : (int) event.getY();
 
         exibeDialog("Alterar imagem", "Escolha um filtro");
+        atualizaImg3();
+    }
+
+    @FXML
+    public void identificaRostos() {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+        CascadeClassifier faceDetector = new CascadeClassifier("haarcascade_frontalface_alt.xml");
+        Mat image = Imgcodecs.imread(f.getAbsolutePath());
+        MatOfRect faceDetections = new MatOfRect();
+        faceDetector.detectMultiScale(image, faceDetections);
+        System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
+        for(Rect rect: faceDetections.toArray()) {
+            Imgproc.rectangle(image, new Point(rect.x, rect.y),
+                                     new Point(rect.x + rect.width, rect.y + rect.height),
+                                     new Scalar(0, 0, 255), 3);
+        }
+        MatOfByte mtb = new MatOfByte();
+        Imgcodecs.imencode(".png", image, mtb);
+        imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
         atualizaImg3();
     }
 }
