@@ -109,7 +109,7 @@ public class AULA2Controller {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                 "Imagens", "*.jpg", "*.JPG", "*.png", "*.PNG", "*.gif", "*.GIF", "*.bmp", "*.BMP"));
-        fileChooser.setInitialDirectory(new File("C:\\Users\\Usuário\\Pictures\\Saved Pictures"));
+        fileChooser.setInitialDirectory(new File("C:\\Users\\Administrador\\Documents\\ProvaPDI"));
 
         try {
             return fileChooser.showOpenDialog(null);
@@ -147,7 +147,7 @@ public class AULA2Controller {
             FileChooser fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(
                     "Imagens", "*.png", "*.PNG"));
-            fileChooser.setInitialDirectory(new File("C:\\Users\\Usuário\\Pictures\\Saved Pictures"));
+            fileChooser.setInitialDirectory(new File("C:\\Users\\Administrador\\Documents\\ProvaPDI"));
 
             File file = fileChooser.showSaveDialog(null);
             if (file != null) {
@@ -194,14 +194,16 @@ public class AULA2Controller {
 
         Optional<ButtonType> result = alert.showAndWait();
 
-        if (result.get() == cinza) {
-            imagem3 = Pdi.cinza(imagem1, "0", "0", "0", areaSelecionada);
-        } else if (result.get() == negativa) {
-            imagem3 = Pdi.negativa(imagem1, areaSelecionada);
-        } else if (result.get() == adicionar) {
-            imagem3 = Pdi.adicionar(imagem1, imagem2, 50.0, 50.0, areaSelecionada);
-        } else if (result.get() == subtrair) {
-            imagem3 = Pdi.subtrair(imagem1, imagem2, areaSelecionada);
+        if (result.isPresent()) {
+            if (result.get() == cinza) {
+                imagem3 = Pdi.cinza(imagem1, "0", "0", "0", areaSelecionada);
+            } else if (result.get() == negativa) {
+                imagem3 = Pdi.negativa(imagem1, areaSelecionada);
+            } else if (result.get() == adicionar) {
+                imagem3 = Pdi.adicionar(imagem1, imagem2, 50.0, 50.0, areaSelecionada);
+            } else if (result.get() == subtrair) {
+                imagem3 = Pdi.subtrair(imagem1, imagem2, areaSelecionada);
+            }
         }
     }
 
@@ -226,6 +228,7 @@ public class AULA2Controller {
     @SuppressWarnings("unused")
     public void limiar() {
         imagem3 = Pdi.limiar(imagem1, limiar.getValue());
+        System.out.println(limiar.getValue());
         atualizaImg3();
     }
 
@@ -378,25 +381,98 @@ public class AULA2Controller {
         areaSelecionada[2] = areaSelecionada[2] < (int) event.getY() ? areaSelecionada[2] : (int) event.getY();
         areaSelecionada[3] = areaSelecionada[3] > (int) event.getY() ? areaSelecionada[3] : (int) event.getY();
 
-        exibeDialog("Alterar imagem", "Escolha um filtro");
-        atualizaImg3();
+//        exibeDialog("Alterar imagem", "Escolha um filtro");
+//        atualizaImg3();
     }
 
     @FXML
     public void identificaRostos() {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         CascadeClassifier faceDetector = new CascadeClassifier("haarcascade_frontalface_alt.xml");
         Mat image = Imgcodecs.imread(f.getAbsolutePath());
         MatOfRect faceDetections = new MatOfRect();
         faceDetector.detectMultiScale(image, faceDetections);
         System.out.println(String.format("Detected %s faces", faceDetections.toArray().length));
-        for(Rect rect: faceDetections.toArray()) {
+        for (Rect rect : faceDetections.toArray()) {
             Imgproc.rectangle(image, new Point(rect.x, rect.y),
-                                     new Point(rect.x + rect.width, rect.y + rect.height),
-                                     new Scalar(0, 0, 255), 3);
+                    new Point(rect.x + rect.width, rect.y + rect.height),
+                    new Scalar(0, 0, 255), 3);
         }
         MatOfByte mtb = new MatOfByte();
         Imgcodecs.imencode(".png", image, mtb);
+        imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+        atualizaImg3();
+    }
+
+    @FXML
+    public void dilatacao() {
+        Mat src = Imgcodecs.imread(f.getAbsolutePath());
+        Mat dest = new Mat();
+
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT,
+                new Size((2 * 2) + 1, (2 * 2) + 1));
+
+        Imgproc.dilate(src, dest, kernel);
+
+        MatOfByte mtb = new MatOfByte();
+        Imgcodecs.imencode(".png", dest, mtb);
+        imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+        atualizaImg3();
+    }
+
+    @FXML
+    public void erosao() {
+        Mat src = Imgcodecs.imread(f.getAbsolutePath());
+        Mat dst = new Mat();
+
+        Mat kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT,
+                new Size((2 * 2) + 1, (2 * 2) + 1));
+
+        Imgproc.erode(src, dst, kernel);
+
+        MatOfByte mtb = new MatOfByte();
+        Imgcodecs.imencode(".png", dst, mtb);
+        imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+        atualizaImg3();
+    }
+
+    @FXML
+    public void sobel() {
+        Mat src = Imgcodecs.imread(f.getAbsolutePath());
+        Mat dst = new Mat();
+
+        Imgproc.Sobel(src, dst, -1, 1, 1);
+
+        MatOfByte mtb = new MatOfByte();
+        Imgcodecs.imencode(".png", dst, mtb);
+        imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+        atualizaImg3();
+    }
+
+    @FXML
+    public void laplaceano() {
+        Mat image = Imgcodecs.imread(f.getAbsolutePath());
+        Mat dest = new Mat();
+
+        Imgproc.Laplacian(image, dest, 6);
+
+        MatOfByte mtb = new MatOfByte();
+        Imgcodecs.imencode(".png", dest, mtb);
+        imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
+        atualizaImg3();
+    }
+
+    @FXML
+    public void canny() {
+        Mat src = Imgcodecs.imread(f.getAbsolutePath());
+        Mat dst = new Mat();
+        Mat gray = new Mat();
+        Imgproc.cvtColor(src, gray, Imgproc.COLOR_BGR2GRAY);
+        Mat edges = new Mat();
+
+        Imgproc.Canny(gray, edges, 70, 70*3);
+
+        MatOfByte mtb = new MatOfByte();
+        Imgcodecs.imencode(".png", edges, mtb);
         imagem3 = new Image(new ByteArrayInputStream(mtb.toArray()));
         atualizaImg3();
     }
